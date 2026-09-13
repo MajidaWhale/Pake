@@ -161,7 +161,13 @@ jobs:
 
           echo "Running: node dist/cli.js ${ARGS[@]}"
           node dist/cli.js "${ARGS[@]}"
-
+          
+ - name: Clean stale Pake lock
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Remove-Item "src-tauri\target\.pake-build.lock" -Force -ErrorAction SilentlyContinue
+          
       - name: Build App (Windows)
         if: runner.os == 'Windows'
         timeout-minutes: 25
